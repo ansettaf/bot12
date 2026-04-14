@@ -61,15 +61,8 @@ const handleMessage = async (msg) => {
                 // 5. Send Mp3 Payload
                 await whatsappService.sendAudio(msgRef, tempPath, false); 
 
-                // 6. Delete file IMMEDIATELY after transmission to fulfill strict memory guidelines
-                setTimeout(() => {
-                    try {
-                        fileUtils.deleteFile(tempPath);
-                        cache.removeCachedAudio(videoData.videoId, quality);
-                    } catch(err) {
-                        logger.error('Failed to immediately clean cache mapping:', err.message);
-                    }
-                }, 1000); // Exits disk block instantly
+                // 6. File is intentionally kept on disk for caching purposes.
+                // CleanupManager will handle eventual GC based on TTL.
 
             } catch (error) {
                 logger.error(`Critical failure executing Queue Job for ${sender}:`, error.message);
@@ -155,6 +148,9 @@ const handleMessage = async (msg) => {
         if (spamCheck.isSpam) {
             return await whatsappService.sendReply(msg, spamCheck.actionMessage);
         }
+
+        // Extremely fast visual UI responsiveness indicator
+        msg.react('🔎').catch(() => {});
 
         logger.log(`User ${sender} searched for: ${searchQuery}`);
         const results = await youtubeService.searchMusic(searchQuery);

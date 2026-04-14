@@ -1,11 +1,4 @@
-# 🎓 FINAL YEAR PROJECT (PFE): Enterprise WhatsApp Music Bot Architecture
 
-This document serves as the official Software Architecture and System Reliability report for the WhatsApp Music Bot SaaS instance. This application was explicitly designed for high concurrency, memory safety, and native self-healing execution on strictly constrained 1GB RAM Virtual Private Servers (VPS).
-
----
-
-## 🏗️ 1. Project Directory Architecture
-The project strictly enforces Enterprise Node.js Clean Architecture paradigms. By isolating modules, the application guarantees that critical failures in specific micro-routines never cascade to the core Event Loop.
 
 ```
 /botmusic

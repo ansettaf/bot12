@@ -16,7 +16,11 @@ const client = new Client({
             '--no-first-run',
             '--no-zygote',
             '--single-process',
-            '--disable-gpu'
+            '--disable-gpu',
+            '--disable-software-rasterizer',
+            '--mute-audio',
+            '--js-flags=--max-old-space-size=250',
+            '--disable-extensions'
         ],
     }
 });

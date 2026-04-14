@@ -36,14 +36,18 @@ const startGarbageCollector = () => {
  * Validates memory footprint sizes explicitly outputting tracking algorithms.
  */
 const startHealthMonitor = (downloadQueue) => {
+    const os = require('os');
     setInterval(() => {
         try {
-            const memoryUsage = process.memoryUsage();
-            const ramMB = Math.round(memoryUsage.rss / 1024 / 1024);
-            logger.log(`[HEALTH] RAM: ${ramMB}MB/1024MB | Core Jobs Waiting: ${downloadQueue.queue.length}`);
+            const totalRAM = Math.round(os.totalmem() / 1024 / 1024);
+            const freeRAM = Math.round(os.freemem() / 1024 / 1024);
+            const usedRAM = totalRAM - freeRAM;
+            const nodeRAM = Math.round(process.memoryUsage().rss / 1024 / 1024);
             
-            if (ramMB > 950) {
-                logger.warn('WARNING: RAM EXCEEDING SAFE BOUNDARIES (OOM PRECAUTION). Consider halting execution.');
+            logger.log(`[HEALTH] System RAM: ${usedRAM}MB/${totalRAM}MB (Node: ${nodeRAM}MB) | Core Jobs Waiting: ${downloadQueue.queue.length}`);
+            
+            if (freeRAM < 100) {
+                logger.warn('CRITICAL WARNING: SYSTEM RAM IS CONSTRAINED (< 100MB Free). At risk of OOM crash!');
             }
         } catch (e) {
             // Suppress monitor traps

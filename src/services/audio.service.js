@@ -23,11 +23,13 @@ const executeYtDlp = (videoId, quality, signal) => {
             return resolve(finalFilePath); 
         }
 
+        const cookiesPath = path.join(__dirname, '../../www.youtube.com_cookies.txt');
         const args = [
-            '-f', 'bestaudio/best',
+            '--cookies', cookiesPath,
+            '-f', 'ba/18/b',
             '--extract-audio',
             '--audio-format', 'mp3',
-            '--audio-quality', '0',
+            '--audio-quality', quality === '128' ? '5' : '0',
             '--embed-thumbnail',
             '--add-metadata',
             '--output', outputTemplate,

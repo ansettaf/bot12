@@ -1,8 +1,8 @@
 // Configuration flags mimicking environment constants
-const COOLDOWN_MS = 10 * 1000;           // 10 seconds rapid-fire block
+const COOLDOWN_MS = 2 * 1000;            // 2 seconds rapid-fire block (softened for speed)
 const WINDOW_MS = 60 * 1000;             // 60 seconds rolling window
-const MAX_REQUESTS = 3;                  // Max actions allowed per rolling window
-const BLOCK_MS = 5 * 60 * 1000;          // 5 minutes harsh penalty block
+const MAX_REQUESTS = 5;                  // Max actions allowed per rolling window (increased for speed)
+const BLOCK_MS = 1 * 60 * 1000;          // 1 minute harsh penalty block
 
 /**
  * Enterprise-grade high performance mapping for Tracking IP/Phone Numbers natively.
